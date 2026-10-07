@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Distributed Leader Election Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <h1>DISTRIBUTED LEADER ELECTION SIMULATOR</h1>
+    <p>Interactive Bully Algorithm Visualization</p>
+  </header>
+
+  <main class="container">
+
+    <!-- ===== TOP STATISTICS (updated by updateStats()) ===== -->
+    <section class="stats">
+      <div class="stat"><span class="label">Total Nodes</span><strong id="statTotal">0</strong></div>
+      <div class="stat"><span class="label">Active Nodes</span><strong id="statActive">0</strong></div>
+      <div class="stat"><span class="label">Failed Nodes</span><strong id="statFailed">0</strong></div>
+      <div class="stat"><span class="label">Current Leader</span><strong id="statLeader">None</strong></div>
+      <div class="stat"><span class="label">Messages</span><strong id="statMessages">0</strong></div>
+      <div class="stat"><span class="label">Election Status</span><strong id="statStatus">Idle</strong></div>
+    </section>
+
+    <div class="grid">
+
+      <!-- ===== NETWORK VISUALIZATION + CONTROLS ===== -->
+      <section class="panel">
+        <h2>Network</h2>
+        <div class="network" id="network">
+          <svg id="links" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+          <div id="nodeLayer"></div>
+          <div id="msgLayer"></div>
+        </div>
+
+        <div class="controls">
+          <label>Election initiator
+            <select id="initiatorSelect"></select>
+          </label>
+          <button class="btn primary" id="btnStart">Start election</button>
+          <button class="btn danger" id="btnFailLeader">Fail leader</button>
+          <label>Select node
+            <select id="failSelect"></select>
+          </label>
+          <button class="btn danger" id="btnFailSelected">Fail selected node</button>
+          <button class="btn" id="btnRecover">Recover node</button>
+          <button class="btn" id="btnAuto">Auto simulation</button>
+          <button class="btn" id="btnReset">Reset simulation</button>
+        </div>
+
+        <ul class="legend">
+          <li><i class="dot active"></i>Active</li>
+          <li><i class="dot leader"></i>Leader</li>
+          <li><i class="dot candidate"></i>Candidate</li>
+          <li><i class="dot election"></i>Election</li>
+          <li><i class="dot failed"></i>Failed</li>
+        </ul>
+      </section>
+
+      <!-- ===== EVENT LOG ===== -->
+      <section class="panel">
+        <h2>Event log</h2>
+        <div class="log" id="log"></div>
+      </section>
+    </div>
+
+    <!-- ===== ELECTION HISTORY (filled in Stage 10) ===== -->
+    <section class="panel">
+      <h2>Election history</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Election</th><th>Initiator</th><th>Previous leader</th><th>New leader</th><th>Status</th></tr></thead>
+          <tbody id="historyBody"><tr><td colspan="5" class="muted">No elections yet.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== EDUCATIONAL PANEL ===== -->
+    <section class="panel">
+      <h2>How the Bully Algorithm works</h2>
+      <ol class="steps">
+        <li>Every process has a unique ID.</li>
+        <li>A process notices that the leader has failed.</li>
+        <li>It starts an election.</li>
+        <li>It sends ELECTION messages to every process with a higher ID.</li>
+        <li>Active higher-ID processes reply OK and start their own elections.</li>
+        <li>The highest active process gets no reply from above, so it becomes leader.</li>
+        <li>The new leader sends a COORDINATOR message to everyone.</li>
+      </ol>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="panel">
+      <h2>About project</h2>
+      <dl class="about">
+        <dt>Title</dt><dd>Distributed Leader Election Simulator</dd>
+        <dt>Subject</dt><dd>Distributed Computing</dd>
+        <dt>Algorithm</dt><dd>Bully Algorithm</dd>
+        <dt>Purpose</dt><dd>To visualize and understand leader election in distributed systems.</dd>
+        <dt>Technologies</dt><dd>HTML, CSS, JavaScript</dd>
+      </dl>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
